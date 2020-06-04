@@ -27,7 +27,7 @@ open class MicrobenchScriptTask @Inject constructor(private val jar: TaskProvide
 
     init {
         group = "build"
-        description = "Generate the $scriptFile shell wrapper to run microbenchmarks"
+        description = "Generate the shell wrapper to run microbenchmarks"
     }
 
     @TaskAction

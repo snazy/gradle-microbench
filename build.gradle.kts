@@ -12,6 +12,7 @@
  * limitations under the License.
  */
 
+import java.time.Duration
 import org.jetbrains.gradle.ext.*
 
 plugins {
@@ -35,7 +36,7 @@ java {
 }
 
 group = "org.caffinitas.gradle.microbench"
-version = "0.1"
+version = "0.1.1"
 val readableName = "Creates a shell-script to run JMH"
 description = "Just creates a shell-script to run JMH"
 
@@ -131,9 +132,9 @@ signing {
 
 nexusPublishing {
     packageGroup.set("org.caffinitas")
+    clientTimeout.set(Duration.ofMinutes(10))
     repositories {
-        sonatype {
-        }
+        sonatype()
     }
 }
 
