@@ -21,7 +21,7 @@ import javax.inject.Inject
 
 open class MicrobenchExtension @Inject constructor(project: Project) {
     @Input
-    val jmhVersion = project.objects.property(String::class).convention("1.21")
+    val jmhVersion = project.objects.property(String::class).convention("1.23")
 
     @Input
     val jvmOptions = project.objects.listProperty(String::class).convention(listOf())
