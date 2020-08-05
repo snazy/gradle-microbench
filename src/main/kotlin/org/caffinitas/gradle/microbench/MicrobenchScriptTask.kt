@@ -23,7 +23,7 @@ import javax.inject.Inject
 open class MicrobenchScriptTask @Inject constructor(private val jar: TaskProvider<Jar>) : DefaultTask() {
 
     @OutputFile
-    val scriptFile = project.objects.fileProperty().convention(project.layout.buildDirectory.file("microbench"))
+    val scriptFile = project.objects.fileProperty().convention(project.layout.buildDirectory.file(MicrobenchPlugin.SOURCE_SET_NAME))
 
     init {
         group = "build"
@@ -32,7 +32,7 @@ open class MicrobenchScriptTask @Inject constructor(private val jar: TaskProvide
 
     @TaskAction
     fun generateScript() {
-        val srcSet = project.extensions.getByType<SourceSetContainer>().getByName(SourceSet.MAIN_SOURCE_SET_NAME)
+        val srcSet = project.extensions.getByType<SourceSetContainer>().getByName("microbench")
 
         val ext = project.extensions.getByType<MicrobenchExtension>()
 

@@ -25,6 +25,10 @@ import org.gradle.kotlin.dsl.register
 
 @Suppress("unused")
 class MicrobenchPlugin : Plugin<Project> {
+    companion object {
+        const val SOURCE_SET_NAME = "microbench"
+    }
+
     override fun apply(project: Project): Unit = project.run {
         project.plugins.apply(JavaBasePlugin::class.java)
 
@@ -37,7 +41,7 @@ class MicrobenchPlugin : Plugin<Project> {
         val mainSourceSet = sourceSets.getByName(SourceSet.MAIN_SOURCE_SET_NAME)
         val testSourceSet = sourceSets.getByName(SourceSet.TEST_SOURCE_SET_NAME)
 
-        val sourceSet = sourceSets.register("microbench") {
+        val sourceSet = sourceSets.register(SOURCE_SET_NAME) {
             java.srcDir("test/microbench")
             resources.srcDir("test/resources")
         }
