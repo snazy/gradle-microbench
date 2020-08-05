@@ -17,13 +17,10 @@ import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.internal.jvm.ClassDirectoryBinaryNamingScheme
 import org.gradle.api.plugins.JavaBasePlugin
-import org.gradle.api.plugins.JavaPlugin
 import org.gradle.api.plugins.JavaPluginConvention
 import org.gradle.api.tasks.SourceSet
-import org.gradle.api.tasks.SourceSetContainer
 import org.gradle.api.tasks.bundling.Jar
 import org.gradle.kotlin.dsl.create
-import org.gradle.kotlin.dsl.getByType
 import org.gradle.kotlin.dsl.register
 
 @Suppress("unused")
@@ -61,7 +58,7 @@ class MicrobenchPlugin : Plugin<Project> {
 
         val jar = tasks.register<Jar>(namingScheme.getTaskName(null, "jar")) {
             group = "Build"
-            description = "Assembles a jar archive containing the microbench classes and triggers ."
+            description = "Assembles a jar archive containing the microbench classes"
             destinationDirectory.fileValue(buildDir.resolve("tools/lib"))
             archiveFileName.set("microbench.jar")
             from(sourceSet.get().output)
@@ -69,6 +66,8 @@ class MicrobenchPlugin : Plugin<Project> {
         }
         tasks.register("microbench", MicrobenchScriptTask::class.java, jar).configure {
             dependsOn(jar)
+            inputs.property("jmh-version", ext.jmhVersion)
+            inputs.property("jvm-options", ext.jvmOptions)
             inputs.file(jar.get().archiveFile)
             inputs.files(configurations.named(mainSourceSet.runtimeClasspathConfigurationName))
         }
