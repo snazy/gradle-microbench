@@ -17,6 +17,7 @@ import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.internal.jvm.ClassDirectoryBinaryNamingScheme
 import org.gradle.api.plugins.JavaBasePlugin
+import org.gradle.api.plugins.JavaPlugin
 import org.gradle.api.plugins.JavaPluginConvention
 import org.gradle.api.tasks.SourceSet
 import org.gradle.api.tasks.bundling.Jar
@@ -30,7 +31,7 @@ class MicrobenchPlugin : Plugin<Project> {
     }
 
     override fun apply(project: Project): Unit = project.run {
-        project.plugins.apply(JavaBasePlugin::class.java)
+        project.plugins.apply(JavaPlugin::class.java)
 
         val javaConvention = project.convention.getPlugin(JavaPluginConvention::class.java)
 
