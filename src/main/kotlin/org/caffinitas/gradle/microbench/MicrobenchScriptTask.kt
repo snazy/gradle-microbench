@@ -18,9 +18,10 @@ import org.gradle.api.JavaVersion
 import org.gradle.api.tasks.*
 import org.gradle.jvm.tasks.Jar
 import org.gradle.kotlin.dsl.getByType
+import org.gradle.kotlin.dsl.named
 import javax.inject.Inject
 
-open class MicrobenchScriptTask @Inject constructor(private val jar: TaskProvider<Jar>) : DefaultTask() {
+open class MicrobenchScriptTask @Inject constructor(private val jarTaskName: String) : DefaultTask() {
 
     @OutputFile
     val scriptFile = project.objects.fileProperty().convention(project.layout.buildDirectory.file(MicrobenchPlugin.SOURCE_SET_NAME))
@@ -43,6 +44,9 @@ open class MicrobenchScriptTask @Inject constructor(private val jar: TaskProvide
             else
                 f.absolutePath
         }
+
+        val jar = project.tasks.named<Jar>(jarTaskName)
+
         val script = """#!/bin/bash
 #
 # GENERATED FILE

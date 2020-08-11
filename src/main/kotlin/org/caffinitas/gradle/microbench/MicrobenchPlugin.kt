@@ -61,7 +61,8 @@ class MicrobenchPlugin : Plugin<Project> {
             dependencies.add(project.dependencies.create("org.openjdk.jmh:jmh-generator-annprocess:${ext.jmhVersion.get()}"))
         }
 
-        val jar = tasks.register<Jar>(namingScheme.getTaskName(null, "jar")) {
+        val jarTaskName = namingScheme.getTaskName(null, "jar")
+        val jar = tasks.register<Jar>(jarTaskName) {
             group = "Build"
             description = "Assembles a jar archive containing the microbench classes"
             destinationDirectory.fileValue(buildDir.resolve("tools/lib"))
@@ -69,8 +70,8 @@ class MicrobenchPlugin : Plugin<Project> {
             from(sourceSet.get().output)
             finalizedBy(tasks.named("microbench"))
         }
-        tasks.register("microbench", MicrobenchScriptTask::class.java, jar).configure {
-            dependsOn(jar)
+        tasks.register("microbench", MicrobenchScriptTask::class.java, jarTaskName).configure {
+            dependsOn(tasks.named(jarTaskName))
             inputs.property("jmh-version", ext.jmhVersion)
             inputs.property("jvm-options", ext.jvmOptions)
             inputs.file(jar.get().archiveFile)
