@@ -62,8 +62,7 @@ CLASSPATH="${jar.get().archiveFile.get().asFile}"
 ${classpathFiles.joinToString("\n") { f -> """CLASSPATH="${'$'}{CLASSPATH}:$f"""" }}
 
 java -cp ${"$"}{CLASSPATH} \
-    ${if (JavaVersion.current().isJava11Compatible) ext.jvmOptions.get().joinToString(" \\\n    ") else ""} \
-    ${'$'}{JVM_ARGS:"-Xms2g -Xmx2g"} \
+    ${ext.jvmOptions.get().joinToString(" \\\n    ")} \
     org.openjdk.jmh.Main \
     "$@"
 """
