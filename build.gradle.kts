@@ -36,7 +36,7 @@ java {
 }
 
 group = "org.caffinitas.gradle.microbench"
-version = "0.1.6"
+version = "0.1.7"
 val readableName = "Creates a shell-script to run JMH"
 description = "Just creates a shell-script to run JMH"
 

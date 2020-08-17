@@ -51,7 +51,7 @@ class MicrobenchPlugin : Plugin<Project> {
             project.dependencies.create("org.openjdk.jmh:jmh-core:${ext.jmhVersion.get()}")
         }
         val jmhAnnprocessProvider = providers.provider {
-            project.dependencies.create("org.openjdk.jmh:jmh-core:${ext.jmhVersion.get()}")
+            project.dependencies.create("org.openjdk.jmh:jmh-generator-annprocess:${ext.jmhVersion.get()}")
         }
 
         configurations.named(namingScheme.getTaskName(null, "implementation")) {
