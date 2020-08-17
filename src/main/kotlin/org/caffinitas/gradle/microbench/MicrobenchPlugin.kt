@@ -16,7 +16,6 @@ package org.caffinitas.gradle.microbench
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.internal.jvm.ClassDirectoryBinaryNamingScheme
-import org.gradle.api.plugins.JavaBasePlugin
 import org.gradle.api.plugins.JavaPlugin
 import org.gradle.api.plugins.JavaPluginConvention
 import org.gradle.api.tasks.SourceSet
@@ -48,17 +47,24 @@ class MicrobenchPlugin : Plugin<Project> {
         }
         val namingScheme = ClassDirectoryBinaryNamingScheme(sourceSet.name)
 
+        val jmhCoreProvider = providers.provider {
+            project.dependencies.create("org.openjdk.jmh:jmh-core:${ext.jmhVersion.get()}")
+        }
+        val jmhAnnprocessProvider = providers.provider {
+            project.dependencies.create("org.openjdk.jmh:jmh-core:${ext.jmhVersion.get()}")
+        }
+
         configurations.named(namingScheme.getTaskName(null, "implementation")) {
             extendsFrom(configurations.getByName(testSourceSet.implementationConfigurationName))
             dependencies.add(project.dependencies.create(mainSourceSet.output))
             dependencies.add(project.dependencies.create(testSourceSet.output))
-            dependencies.add(project.dependencies.create("org.openjdk.jmh:jmh-core:${ext.jmhVersion.get()}"))
+            dependencies.addLater(jmhCoreProvider)
         }
         configurations.named(namingScheme.getTaskName(null, "compileOnly")) {
-            dependencies.add(project.dependencies.create("org.openjdk.jmh:jmh-generator-annprocess:${ext.jmhVersion.get()}"))
+            dependencies.addLater(jmhAnnprocessProvider)
         }
         configurations.named(namingScheme.getTaskName(null, "annotationProcessor")) {
-            dependencies.add(project.dependencies.create("org.openjdk.jmh:jmh-generator-annprocess:${ext.jmhVersion.get()}"))
+            dependencies.addLater(jmhAnnprocessProvider)
         }
 
         val jarTaskName = namingScheme.getTaskName(null, "jar")
