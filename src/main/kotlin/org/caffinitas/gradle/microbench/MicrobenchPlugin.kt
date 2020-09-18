@@ -42,8 +42,8 @@ class MicrobenchPlugin : Plugin<Project> {
         val testSourceSet = sourceSets.getByName(SourceSet.TEST_SOURCE_SET_NAME)
 
         val sourceSet = sourceSets.register(SOURCE_SET_NAME) {
-            java.srcDir("test/microbench")
-            resources.srcDir("test/resources")
+            java.srcDir("src/test/microbench")
+            resources.srcDir("src/test/resources")
         }
         val namingScheme = ClassDirectoryBinaryNamingScheme(sourceSet.name)
 
